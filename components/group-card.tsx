@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import {FiMoreHorizontal} from "react-icons/fi"
+import { Id } from "@/convex/_generated/dataModel";
 
 interface GroupCardProps {
   group: { _id: string; title: string };
@@ -19,12 +20,12 @@ const GroupCard: React.FC<GroupCardProps> = ({ group }) => {
 
   const handleSave = async () => {
     if (newTitle.trim() === "") return;
-    await updateGroup({ id: group._id, title: newTitle });
+    await updateGroup({ id: group._id as Id<"groups">, title: newTitle }); // ✅ Cast _id
     setIsEditing(false);
   };
 
   const handleDelete = async () => {
-    await deleteGroup({ id: group._id });
+    await deleteGroup({ id: group._id as Id<"groups"> }); // ✅ Cast _id
   };
 
   return (
